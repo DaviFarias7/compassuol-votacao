@@ -2,6 +2,7 @@ package com.compassuol.cooperativa_votacao.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,6 +16,7 @@ import java.util.Set;
 @Entity
 @Table(name = "tb_pauta")
 public class Pauta {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,4 +38,5 @@ public class Pauta {
     @Column(nullable = false)
     @Builder.Default
     private boolean sessaoEncerrada = false;
+
 }
