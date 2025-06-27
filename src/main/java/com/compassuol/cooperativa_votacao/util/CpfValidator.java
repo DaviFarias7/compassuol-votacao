@@ -1,5 +1,6 @@
 package com.compassuol.cooperativa_votacao.util;
 
+import com.compassuol.cooperativa_votacao.dto.CpfValidationResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -20,8 +21,21 @@ public class CpfValidator {
     public boolean isValid(String cpf) {
         try {
             String url = cpfValidatorUrl + cpf;
-            String response = restTemplate.getForObject(url, String.class);
-            return "ABLE_TO_VOTE".equals(response);
+            CpfValidationResponse response = restTemplate.getForObject(url, CpfValidationResponse.class);
+
+            if (response == null || response.getStatus() == null) {
+                return false;
+            }
+
+            switch (response.getStatus()) {
+                case ABLE_TO_VOTE:
+                    return true;
+                case UNABLE_TO_VOTE:
+                    return false;
+                default:
+                    throw new IllegalStateException("Status inesperado: " + response.getStatus());
+            }
+
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
                 return false;

@@ -1,6 +1,7 @@
 package com.compassuol.cooperativa_votacao.controller;
 
 import com.compassuol.cooperativa_votacao.dto.PautaRequest;
+import com.compassuol.cooperativa_votacao.dto.ResultadoVotacaoResponse;
 import com.compassuol.cooperativa_votacao.model.Pauta;
 import com.compassuol.cooperativa_votacao.services.PautaService;
 import jakarta.validation.Valid;
@@ -43,4 +44,11 @@ public class PautaController {
         Pauta pauta = pautaService.buscarPautaPorId(id);
         return ResponseEntity.ok(pauta);
     }
+
+    @GetMapping("/{id}/resultado")
+    public ResponseEntity<ResultadoVotacaoResponse> resultadoVotacao(@PathVariable Long id) {
+        ResultadoVotacaoResponse resultado = pautaService.obterResultadoVotacao(id);
+        return ResponseEntity.ok(resultado);
+    }
+
 }
