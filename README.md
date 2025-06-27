@@ -85,6 +85,9 @@ API desenvolvida para o gerenciamento de pautas e sessões de votação em uma c
 - Todos os endpoints são documentados e testáveis via interface web.
 
 ---
+## 📸 Swagger UI
+
+![Swagger UI](docs/swagger-ui.png)
 
 ## 📋 Execução Local
 
