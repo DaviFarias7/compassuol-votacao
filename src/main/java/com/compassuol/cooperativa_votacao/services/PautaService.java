@@ -1,7 +1,7 @@
 package com.compassuol.cooperativa_votacao.services;
 
-import com.compassuol.cooperativa_votacao.dto.PautaRequest;
-import com.compassuol.cooperativa_votacao.dto.ResultadoVotacaoResponse;
+import com.compassuol.cooperativa_votacao.dto.PautaRequestDTO;
+import com.compassuol.cooperativa_votacao.dto.ResultadoVotacaoResponseDTO;
 import com.compassuol.cooperativa_votacao.exception.PautaNaoEncontradaException;
 import com.compassuol.cooperativa_votacao.exception.SessaoJaAbertaException;
 import com.compassuol.cooperativa_votacao.model.Pauta;
@@ -18,7 +18,7 @@ public class PautaService {
     private final PautaRepository pautaRepository;
     private final VotoRepository votoRepository;
 
-    public Pauta criarPauta(PautaRequest request) {
+    public Pauta criarPauta(PautaRequestDTO request) {
         Pauta pauta = Pauta.builder()
                 .titulo(request.getTitulo())
                 .descricao(request.getDescricao())
@@ -48,7 +48,7 @@ public class PautaService {
                 .orElseThrow(() -> new PautaNaoEncontradaException(pautaId));
     }
 
-    public ResultadoVotacaoResponse obterResultadoVotacao(Long pautaId) {
+    public ResultadoVotacaoResponseDTO obterResultadoVotacao(Long pautaId) {
         Pauta pauta = buscarPautaPorId(pautaId);
         if (pauta.getDataFechamento() == null || LocalDateTime.now().isBefore(pauta.getDataFechamento())) {
             throw new IllegalStateException("Sessão de votação ainda não foi encerrada.");
@@ -60,7 +60,7 @@ public class PautaService {
         String resultado = votosSim > votosNao ? "APROVADA" : "REJEITADA";
         if (votosSim == votosNao) resultado = "EMPATE";
 
-        return ResultadoVotacaoResponse.builder()
+        return ResultadoVotacaoResponseDTO.builder()
                 .pautaId(pauta.getId())
                 .tituloPauta(pauta.getTitulo())
                 .totalVotos(votosSim + votosNao)

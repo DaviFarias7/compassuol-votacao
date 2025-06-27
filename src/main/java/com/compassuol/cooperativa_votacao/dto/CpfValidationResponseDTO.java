@@ -1,11 +1,9 @@
 package com.compassuol.cooperativa_votacao.dto;
 
-import lombok.*;
-
 import com.compassuol.cooperativa_votacao.enums.CpfStatus;
 import lombok.Data;
 
 @Data
-public class CpfValidationResponse {
+public class CpfValidationResponseDTO {
     private CpfStatus status;
 }

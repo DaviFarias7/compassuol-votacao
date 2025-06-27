@@ -1,5 +1,6 @@
 package com.compassuol.cooperativa_votacao.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,10 +20,13 @@ public class Voto {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pauta_id", nullable = false)
     @ToString.Exclude
+    @JsonBackReference
     private Pauta pauta;
 
-    @Column(nullable = false, length = 11)
-    private String cpfAssociado;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "associado_id")
+    @ToString.Exclude
+    private Associado associado;
 
     @Column(nullable = false)
     private boolean voto;

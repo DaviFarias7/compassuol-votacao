@@ -1,7 +1,9 @@
 package com.compassuol.cooperativa_votacao.controller;
 
-import com.compassuol.cooperativa_votacao.dto.PautaRequest;
-import com.compassuol.cooperativa_votacao.dto.ResultadoVotacaoResponse;
+import com.compassuol.cooperativa_votacao.dto.PautaRequestDTO;
+import com.compassuol.cooperativa_votacao.dto.PautaResponseDTO;
+import com.compassuol.cooperativa_votacao.dto.ResultadoVotacaoResponseDTO;
+import com.compassuol.cooperativa_votacao.dto.VotoResponseDTO;
 import com.compassuol.cooperativa_votacao.model.Pauta;
 import com.compassuol.cooperativa_votacao.services.PautaService;
 import jakarta.validation.Valid;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/pautas")
@@ -19,7 +22,7 @@ public class PautaController {
     private final PautaService pautaService;
 
     @PostMapping
-    public ResponseEntity<Pauta> criarPauta(@Valid @RequestBody PautaRequest request) {
+    public ResponseEntity<Pauta> criarPauta(@Valid @RequestBody PautaRequestDTO request) {
         Pauta pauta = pautaService.criarPauta(request);
 
         URI location = ServletUriComponentsBuilder
@@ -40,14 +43,33 @@ public class PautaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pauta> buscarPauta(@PathVariable Long id) {
+    public ResponseEntity<PautaResponseDTO> buscarPauta(@PathVariable Long id) {
         Pauta pauta = pautaService.buscarPautaPorId(id);
-        return ResponseEntity.ok(pauta);
+
+        PautaResponseDTO response = PautaResponseDTO.builder()
+                .id(pauta.getId())
+                .titulo(pauta.getTitulo())
+                .descricao(pauta.getDescricao())
+                .dataAbertura(pauta.getDataAbertura())
+                .dataFechamento(pauta.getDataFechamento())
+                .sessaoEncerrada(pauta.isSessaoEncerrada())
+                .votos(
+                        pauta.getVotos().stream().map(voto -> VotoResponseDTO.builder()
+                                .cpfAssociado(voto.getAssociado().getCpf())
+                                .nomeAssociado(voto.getAssociado().getNome())
+                                .voto(voto.isVoto())
+                                .build()
+                        ).toList()
+                )
+                .build();
+
+        return ResponseEntity.ok(response);
     }
 
+
     @GetMapping("/{id}/resultado")
-    public ResponseEntity<ResultadoVotacaoResponse> resultadoVotacao(@PathVariable Long id) {
-        ResultadoVotacaoResponse resultado = pautaService.obterResultadoVotacao(id);
+    public ResponseEntity<ResultadoVotacaoResponseDTO> resultadoVotacao(@PathVariable Long id) {
+        ResultadoVotacaoResponseDTO resultado = pautaService.obterResultadoVotacao(id);
         return ResponseEntity.ok(resultado);
     }
 

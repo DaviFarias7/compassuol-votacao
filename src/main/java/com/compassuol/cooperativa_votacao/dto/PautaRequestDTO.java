@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PautaRequest {
+public class PautaRequestDTO {
     @NotBlank(message = "Título é obrigatório")
     @Size(min = 3, max = 100, message = "Título deve ter entre 3 e 100 caracteres")
     private String titulo;

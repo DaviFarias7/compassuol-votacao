@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResultadoVotacaoResponse {
+public class ResultadoVotacaoResponseDTO {
     private Long pautaId;
     private String tituloPauta;
     private long totalVotos;

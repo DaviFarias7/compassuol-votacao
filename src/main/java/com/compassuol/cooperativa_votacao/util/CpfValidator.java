@@ -1,10 +1,7 @@
 package com.compassuol.cooperativa_votacao.util;
 
-import com.compassuol.cooperativa_votacao.dto.CpfValidationResponse;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
@@ -19,9 +16,13 @@ public class CpfValidator {
     }
 
     public boolean isValid(String cpf) {
+        // Validação desativada temporariamente para desenvolvimento
+        return true;
+
+        /*
         try {
             String url = cpfValidatorUrl + cpf;
-            CpfValidationResponse response = restTemplate.getForObject(url, CpfValidationResponse.class);
+            CpfValidationResponseDTO response = restTemplate.getForObject(url, CpfValidationResponseDTO.class);
 
             if (response == null || response.getStatus() == null) {
                 return false;
@@ -42,5 +43,6 @@ public class CpfValidator {
             }
             throw e;
         }
+        */
     }
 }

@@ -1,5 +1,6 @@
 package com.compassuol.cooperativa_votacao.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,6 +31,7 @@ public class Pauta {
     @OneToMany(mappedBy = "pauta", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     @ToString.Exclude
+    @JsonManagedReference
     private Set<Voto> votos = new HashSet<>();
 
     private LocalDateTime dataAbertura;

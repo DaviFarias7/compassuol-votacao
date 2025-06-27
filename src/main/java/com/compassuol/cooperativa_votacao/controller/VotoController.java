@@ -1,6 +1,6 @@
 package com.compassuol.cooperativa_votacao.controller;
 
-import com.compassuol.cooperativa_votacao.dto.VotoRequest;
+import com.compassuol.cooperativa_votacao.dto.VotoRequestDTO;
 import com.compassuol.cooperativa_votacao.model.Voto;
 import com.compassuol.cooperativa_votacao.services.VotoService;
 import jakarta.validation.Valid;
@@ -18,7 +18,7 @@ public class VotoController {
     private final VotoService votoService;
 
     @PostMapping
-    public ResponseEntity<Voto> registrarVoto(@Valid @RequestBody VotoRequest request) {
+    public ResponseEntity<Voto> registrarVoto(@Valid @RequestBody VotoRequestDTO request) {
         Voto voto = votoService.registrarVoto(request);
         return ResponseEntity.ok(voto);
     }
